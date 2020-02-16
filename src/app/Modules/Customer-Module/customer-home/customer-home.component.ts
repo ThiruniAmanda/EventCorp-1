@@ -8,7 +8,11 @@ import { AngularFirestore } from '@angular/fire/firestore';
 })
 export class CustomerHomeComponent implements OnInit,AfterViewInit {
 
-  constructor(private cdr:ChangeDetectorRef) { }
+  constructor(private cdr:ChangeDetectorRef, private db:AngularFirestore) { }
+
+  // event_array:any=[];
+  // organizer_array:any=[];
+  // email:any;
 
   ngOnInit() {
     // console.log(localStorage.getItem('loggedIn'))
@@ -24,10 +28,42 @@ export class CustomerHomeComponent implements OnInit,AfterViewInit {
     //   if(localStorage.getItem('searched_user_email')) localStorage.removeItem('searched_user_email');
     //   console.log(this.auth.auth.isSignInWithEmailLink);
     // }
+   // this.loadAll();
   }
 
   ngAfterViewInit(): void {
     this.cdr.detectChanges();
   }
+
+  //get all events 
+//   loadAll(){
+//     var _this=this;
+    
+// //get all event organizers
+//     this.db.firestore.collection('register_user').get().then(docs=>{
+//       if(docs.empty) console.log("Empty Data");
+//       else{
+//         docs.forEach(doc=>{
+//           if(doc.data().role==="organizer"){                      
+//             _this.organizer_array.push(doc.data());
+//             _this.email=doc.data().email;
+
+// //get all events using organizer's email           
+//             this.db.firestore.collection(('register_user')).doc(_this.email).collection("MyEvents").get().then(docs=>{
+//               if (docs.empty) console.log("Empty Data"); 
+//               else{
+//                 docs.forEach(doc=>{
+//                   _this.event_array.push(doc.data());
+//                 }) 
+//               }
+              
+//             })
+            
+//           }
+//         })
+//       }  
+//     })
+    
+//   }
 
 }

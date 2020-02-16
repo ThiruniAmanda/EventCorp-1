@@ -35,7 +35,7 @@ export class ShowProvidersComponent implements OnInit {
     })
     
   }
-
+//get all items using supplier email
   getItems(email:any){
     this.isLoaded=true;
     this.isProcessing=true;
