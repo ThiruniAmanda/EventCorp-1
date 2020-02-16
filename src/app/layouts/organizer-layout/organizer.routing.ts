@@ -31,8 +31,9 @@ export const OrganizerLayoutRoutes: Routes = [
     { path:'view-request-status',component:ViewRequestStatusComponent},
     { path:'update-events/:event_id',component:UpdateEventsComponent},
     { path:'view-all-events',component:ViewAllEventsComponent},
-    { path:'booked_events',component:BookedEventsComponent},
-    { path: 'maps' , component:UserLocationComponent}
+    { path:'organizer-booked_events',component:BookedEventsComponent},
+    { path: 'organizer-maps' , component:UserLocationComponent},
+    // { path: 'view-events',component:ViewUserEventsComponent}
     // { path:'payment/:item_name/:quantity/:amount',component:PaypalPaymentComponent},
     // { path:'user-payments/:user_name/:quantity/:amount',component:PaymentUsersComponent}
 ];

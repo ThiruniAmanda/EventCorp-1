@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ChangeDetectorRef, AfterViewInit } from '@angular/core';
 import {activate_searchBar} from '../../../../scripts/search_bar_activate';
 import {loadCalendar} from '../../../../scripts/artist/artist-home';
 import { RateUserService } from 'app/services/rate-user.service';
@@ -12,7 +12,7 @@ import { AngularFireStorage } from '@angular/fire/storage';
   templateUrl: './organizer-home.component.html',
   styleUrls: ['./organizer-home.component.scss']
 })
-export class OrganizerHomeComponent implements OnInit {
+export class OrganizerHomeComponent implements OnInit,AfterViewInit {
 
   currentRate:any=0;
   rating_data:any;
@@ -28,7 +28,14 @@ export class OrganizerHomeComponent implements OnInit {
   suppliers_participated:string="";
   venue:string="";
   id:any;
-  constructor(private _ratings:RateUserService,private database:AngularFirestore,private _snackBar:MatSnackBar,private storage:AngularFireStorage) { }
+  isLoaded:boolean=false;
+  isEmpty:boolean=false;
+  events_array:any=[];
+  filtered_events:any=[{}];
+  artists:string="";
+  suppliers:string="";
+  venue_owners:string="";
+  constructor(private _ratings:RateUserService,private database:AngularFirestore,private _snackBar:MatSnackBar,private storage:AngularFireStorage,private cdr:ChangeDetectorRef) { }
 
   ngOnInit() {
     // loadCalendar();
@@ -39,6 +46,44 @@ export class OrganizerHomeComponent implements OnInit {
     this.load_comments();
   }
 
+  ngAfterViewInit(): void {
+    this.cdr.detectChanges();
+    this.getEvents();
+  }
+
+    //get latest events
+    getEvents(){
+      var _this=this;
+      this.database.firestore.collection('register_user').get().then(snapshot=>{
+        this.isLoaded=true;
+        if(snapshot.empty) console.log('Empty Data');
+        else{
+          snapshot.forEach(docs=>{
+            if(docs.data().role==='organizer'){
+              console.log(docs.id)
+              _this.database.firestore.collection('register_user').doc(docs.id).collection('MyEvents').get().then(snapshots=>{
+                if(snapshots.empty) {
+                  console.log("Empty Events");
+                  _this.isEmpty=true;
+                  _this.isLoaded=true;
+                }
+                else{
+                  _this.isEmpty=false;
+                  snapshots.forEach(events=>{
+                    let date=events.data().date;
+                    console.log(new Date(date))
+                    if(new Date()<=new Date(date))
+                    _this.events_array.push(events.data());
+                    else console.log("Not valid")
+                  })
+                  _this.isLoaded=true;
+                }
+              })
+            }
+          })
+        }
+      });
+    }
 
   //get top users
   get_top_users(){
@@ -163,34 +208,75 @@ export class OrganizerHomeComponent implements OnInit {
     });
    }
 
+  //load event details
+  loadEvents(id:any,event){
+    event.preventDefault();
+    this.artists="";
+    this.suppliers="";
+    this.venue_owners="";
+    this.filtered_events=[];
+    this.filtered_events=this.events_array.filter(x=> x.event_id==id);
+
+    for(var i=0;i<this.filtered_events[0].artists.length;i++){
+      this.artists+=this.filtered_events[0].artists[i].name+" / ";
+    }
+
+    for(var i=0;i<this.filtered_events[0].suppliers.length;i++){
+      this.suppliers+=this.filtered_events[0].suppliers[i].name+" / ";
+    }
+
+    for(var i=0;i<this.filtered_events[0].venue_owners.length;i++){
+      this.venue_owners+=this.filtered_events[0].venue_owners[i].name+" / ";
+    }    
+}
+
+
   //load modal data
   load_modal(event_id:any){
     disable_modal_open();
     console.log(event_id);
-    this.modal_details=[];
+    // this.modal_details=[];
     this.id=event_id;
-    this.modal_details=this.events.filter(x=>x.event_id===event_id);
-    console.log(this.modal_details)
-    for(var artists of this.modal_details){
-      for(var artist_names of artists.artists){
-        console.log(artist_names.name)
-        this.artists_participated+=artist_names.name+" / ";
-      }
+    this.artists="";
+    this.suppliers="";
+    this.venue_owners="";
+    this.filtered_events=[];
+    this.filtered_events=this.events_array.filter(x=> x.event_id==event_id);
+
+    for(var i=0;i<this.filtered_events[0].artists.length;i++){
+      this.artists+=this.filtered_events[0].artists[i].name+" / ";
     }
 
-    for(var suppliers of this.modal_details){
-      for(var supplier_names of suppliers.suppliers){
-        console.log(supplier_names.name)
-        this.suppliers_participated+=supplier_names.name+" / ";
-      }
+    for(var i=0;i<this.filtered_events[0].suppliers.length;i++){
+      this.suppliers+=this.filtered_events[0].suppliers[i].name+" / ";
     }
 
-    for(var venue of this.modal_details){
-      for(var venue_names of venue.venue_owners){
-        console.log(venue_names.name)
-        this.venue+=venue_names.name+" / ";
-      }
-    }
+    for(var i=0;i<this.filtered_events[0].venue_owners.length;i++){
+      this.venue_owners+=this.filtered_events[0].venue_owners[i].name+" / ";
+    }  
+
+    // this.modal_details=this.events_array.filter(x=>x.event_id===event_id);
+    // console.log(this.modal_details)
+    // for(var artists of this.modal_details){
+    //   for(var artist_names of artists.artists){
+    //     console.log(artist_names.name)
+    //     this.artists_participated+=artist_names.name+" / ";
+    //   }
+    // }
+
+    // for(var suppliers of this.modal_details){
+    //   for(var supplier_names of suppliers.suppliers){
+    //     console.log(supplier_names.name)
+    //     this.suppliers_participated+=supplier_names.name+" / ";
+    //   }
+    // }
+
+    // for(var venue of this.modal_details){
+    //   for(var venue_names of venue.venue_owners){
+    //     console.log(venue_names.name)
+    //     this.venue+=venue_names.name+" / ";
+    //   }
+    // }
 
   }
 

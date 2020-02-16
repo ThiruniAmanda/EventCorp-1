@@ -111,6 +111,10 @@ import { AgmCoreModule } from '@agm/core';
 //import { ViewUserEventsComponent } from './shared-components/view-user-events/view-user-events.component';
 import { PasswordResetModule } from './Modules/password_reset.module';
 import { AuthGuardResetPasswordService } from './services/Authentication/authGuard_reset_password.service';
+import { AuthGuardViewLocationService } from './services/Authentication/authGuard_view_location.service';
+import { ViewUserEventsComponent } from './shared-components/view-user-events/view-user-events.component';
+import { AuthGuardViewUserEventsService } from './services/Authentication/authGuardViewUserEvents.service';
+import { ViewBillComponent } from './Modules/Organizer-Module/view-bill/view-bill.component';
 // import {MatDatepickerModule} from '@angular/material/datepicker';
 // import { MatNativeDateModule } from '@angular/material';
 // import { VenueAddComponent } from './venue-module/venue-home/venue-add/venue-add.component';
@@ -184,7 +188,8 @@ import { AuthGuardResetPasswordService } from './services/Authentication/authGua
     PaypalPaymentComponent,
     PaymentUsersComponent,
     ViewLocationComponent,
-    
+    ViewUserEventsComponent,
+    ViewBillComponent   
     //ViewUserEventsComponent,
     // FilterPipe,
    // MyChatsComponent
@@ -194,7 +199,7 @@ import { AuthGuardResetPasswordService } from './services/Authentication/authGua
 
   ],
 
-  providers: [AuthGuardAdminService,AuthGuardArtistService,AuthGuardOrganizerService,AuthGuardSupplierService,AuthGuardVenueOwnerService,ChatService,AuthGuardCustomerService,VenueHomeService,VenueProfileResolver,AuthGuardModeratorService,AuthGuardPaymentService,AuthGuardLocationService,CookieService],
+  providers: [AuthGuardViewUserEventsService,AuthGuardViewLocationService,AuthGuardAdminService,AuthGuardArtistService,AuthGuardOrganizerService,AuthGuardSupplierService,AuthGuardVenueOwnerService,ChatService,AuthGuardCustomerService,VenueHomeService,VenueProfileResolver,AuthGuardModeratorService,AuthGuardPaymentService,AuthGuardLocationService,CookieService],
   bootstrap: [AppComponent],
   entryComponents: [ReportDialogComponent]
 })

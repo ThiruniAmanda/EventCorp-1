@@ -22,6 +22,7 @@ export class UserLocationComponent implements OnInit {
   constructor(private db:AngularFirestore) { }
 
   ngOnInit() {
+    document.getElementById('search_bar').style.display="none";
     this.user_name=localStorage.getItem('nameId');
     this.user_role=localStorage.getItem('role');
     this.getUserAddress();
@@ -146,7 +147,8 @@ export class UserLocationComponent implements OnInit {
       map.setCenter(results[0].geometry.location);
       var marker = new google.maps.Marker({
           map: map,
-          position: results[0].geometry.location
+          position: results[0].geometry.location,
+          title:"My Location"
       });
       marker.setMap(map);
     } else {
