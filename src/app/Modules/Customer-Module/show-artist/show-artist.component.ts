@@ -47,6 +47,7 @@ export class ShowArtistComponent implements OnInit {
       if (!docs.exists) console.log("Empty Data"); 
       else{
         _this.playlist=docs.data().playlist;
+        
       } 
       _this.isProcessing=false;
     })

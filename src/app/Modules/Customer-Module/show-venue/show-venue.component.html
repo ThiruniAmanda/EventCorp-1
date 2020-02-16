@@ -28,11 +28,11 @@
           <tbody>
             <tr *ngFor="let venue of venue_array | searchVenue:searchText ">
               <!-- <td><a style="text-decoration: none;" href="{{artist.img_url}}" target="_blank"><img src="{{artist.img_url}}" style="height:50px;width:50px"></a></td> -->
-              <td><a style="text-decoration: none;" href="assets\img\storage\home\hall.jpg" target="_blank"><img src="assets\img\storage\home\hall.jpg" style="height:70px;width:70px;margin-left: 20px;"></a></td>
+              <td><a style="text-decoration: none;" href="{{venue.photo1}}" target="_blank"><img src="{{venue.photo1}}" style="height:80px;width:80px;margin-left: 20px;"></a></td>
               <td style="font-size: medium;"><b>{{venue.v_name}}</b></td>
               <td><i class="fa fa-phone"></i>{{venue.tel_no}}</td>
               <td><i class="fa fa-map-marker"></i>{{venue.venue_address}}</td>
-              <td><i class="fa fa-envelope"></i>{{v_email}}</td>
+              <!-- <td><i class="fa fa-envelope"></i>{{v_email}}</td> -->
                  
             </tr>
 

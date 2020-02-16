@@ -54,7 +54,7 @@ export class AddPlaylistComponent implements OnInit {
     
     //calculate the size of the files
     this.total_size=(this.total_size)/(1024*1024);   
-    (<HTMLInputElement>document.getElementById('size')).innerHTML=this.total_size.toFixed(2).toString()+"MB";
+    (<HTMLInputElement>document.getElementById('size')).innerHTML=this.total_size.toFixed(5).toString()+"MB";
   }
 
 
