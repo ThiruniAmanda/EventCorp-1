@@ -15,6 +15,16 @@ export class CustomerHomeComponent implements OnInit,AfterViewInit {
   // email:any;
 
   ngOnInit() {
+    document.getElementById('about_span').style.display="none";
+    document.getElementById('home_span').removeAttribute('style');
+    document.getElementById('contact_span').style.display="none";
+    document.getElementById('event_span').style.display="none";
+
+    document.getElementById('about_list').setAttribute('class','nav-item');
+    document.getElementById('home_list').setAttribute('class','nav-item active');
+    document.getElementById('contact_list').setAttribute('class','nav-item')
+    document.getElementById('event_list').setAttribute('class','nav-item')
+
     // console.log(localStorage.getItem('loggedIn'))
     // if(localStorage.getItem('loggedIn') && localStorage.getItem('loggedOut')){
     //   this._db.collection('register_user').doc(localStorage.getItem('user_name')).update({active_status:'logout'});
